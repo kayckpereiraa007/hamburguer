@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brasa Burger — Hambúrgueres artesanais no fogo de brasa</title>
+<meta name="description" content="Hambúrgueres artesanais grelhados na brasa. Peça pelo WhatsApp e receba em casa, ou venha nos visitar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --char: #1a1512;
+    --char-2: #221b16;
+    --wood: #2e2119;
+    --bone: #f3ebdd;
+    --bone-dim: #d9cdb8;
+    --paper: #fbf6ee;
+    --paper-2: #f2e9db;
+    --ember: #e6531c;
+    --ember-dark: #b23c14;
+    --ember-light: #ff8a4c;
+    --smoke: #7a6c5d;
+    --ink: #2a221b;
+    --line: rgba(255,255,255,0.12);
+    --line-dark: rgba(0,0,0,0.1);
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.5);
+    --radius-s: 4px;
+    --radius-m: 10px;
+    --ff-display: 'Anton', sans-serif;
+    --ff-body: 'Work Sans', sans-serif;
+  }
+
+  *,*::before,*::after{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *,*::before,*::after{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  body{
+    margin:0;
+    font-family: var(--ff-body);
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  img{ max-width:100%; display:block; }
+  a{ color: inherit; text-decoration:none; }
+  ul{ margin:0; padding:0; list-style:none; }
+  button{ font-family: inherit; cursor:pointer; border:none; background:none; color:inherit; }
+  h1,h2,h3,h4{ margin:0; font-family: var(--ff-display); font-weight:400; letter-spacing: 0.01em; }
+  p{ margin:0; }
+  section{ position:relative; }
+
+  :focus-visible{
+    outline: 3px solid var(--ember-light);
+    outline-offset: 3px;
+  }
+
+  .container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 48px);
+  }
+
+  .eyebrow-free-heading{ /* naming kept semantic, no visual eyebrow used */ }
+
+  .section-head{
+    max-width: 640px;
+    margin-bottom: 48px;
+  }
+  .section-head h2{
+    font-size: clamp(2.1rem, 4.2vw, 3.2rem);
+    line-height: 1.05;
+    color: var(--ink);
+  }
+  .section-head p{
+    margin-top: 16px;
+    color: var(--smoke);
+    font-size: 1.05rem;
+    max-width: 52ch;
+  }
+  .section-head.on-dark h2{ color: var(--bone); }
+  .section-head.on-dark p{ color: var(--bone-dim); }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding: 15px 28px;
+    border-radius: 999px;
+    font-weight:600;
+    font-size: 0.95rem;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color .22s ease;
+    white-space: nowrap;
+  }
+  .btn svg{ width:18px; height:18px; flex-shrink:0; }
+  .btn-primary{
+    background: var(--ember);
+    color: var(--bone);
+    box-shadow: 0 12px 24px -10px rgba(230,83,28,0.6);
+  }
+  .btn-primary:hover{ background: var(--ember-dark); transform: translateY(-2px); box-shadow: 0 16px 28px -10px rgba(230,83,28,0.7); }
+  .btn-ghost{
+    background: transparent;
+    color: var(--bone);
+    border: 1.5px solid rgba(243,235,221,0.4);
+  }
+  .btn-ghost:hover{ border-color: var(--bone); background: rgba(243,235,221,0.08); transform: translateY(-2px); }
+  .btn-outline-dark{
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid rgba(42,34,27,0.25);
+  }
+  .btn-outline-dark:hover{ border-color: var(--ink); background: rgba(42,34,27,0.05); transform: translateY(-2px); }
+  .btn-block{ width:100%; justify-content:center; }
+  .btn-sm{ padding: 10px 18px; font-size: 0.85rem; }
+
+  /* ---------- HEADER ---------- */
+  .site-header{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 500;
+    padding: 22px 0;
+    transition: padding .3s ease, background .3s ease, box-shadow .3s ease;
+  }
+  .site-header .container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 24px;
+  }
+  .site-header.scrolled{
+    padding: 12px 0;
+    background: rgba(26,21,18,0.92);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px -18px rgba(0,0,0,0.6);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family: var(--ff-display);
+    font-size: 1.5rem;
+    color: var(--bone);
+    letter-spacing: 0.02em;
+  }
+  .brand .flame{ width: 26px; height: 26px; color: var(--ember-light); flex-shrink:0; }
+  .brand span.accent{ color: var(--ember-light); }
+
+  .main-nav{ display:flex; align-items:center; gap: 36px; }
+  .main-nav a{
+    color: var(--bone-dim);
+    font-size: 0.95rem;
+    font-weight: 500;
+    position: relative;
+    padding: 4px 0;
+    transition: color .2s ease;
+  }
+  .main-nav a::after{
+    content:'';
+    position:absolute; left:0; right:100%; bottom:-2px;
+    height:2px; background: var(--ember-light);
+    transition: right .25s ease;
+  }
+  .main-nav a:hover{ color: var(--bone); }
+  .main-nav a:hover::after{ right:0; }
+
+  .header-actions{ display:flex; align-items:center; gap:18px; }
+  .nav-toggle{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    width: 30px;
+    padding: 6px 0;
+  }
+  .nav-toggle span{
+    display:block; height:2px; width:100%;
+    background: var(--bone);
+    border-radius: 2px;
+    transition: transform .25s ease, opacity .25s ease;
+  }
+  .nav-toggle.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2){ opacity:0; }
+  .nav-toggle.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background: var(--char);
+    padding-top: 110px;
+    overflow: hidden;
+  }
+  .hero .container{
+    display:grid;
+    grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr);
+    align-items: center;
+    gap: 40px;
+    min-height: calc(100vh - 110px);
+    padding-bottom: 60px;
+  }
+  .hero-copy{ position:relative; z-index:2; padding: 20px 0; }
+  .hero-copy h1{
+    font-size: clamp(2.6rem, 5.6vw, 4.6rem);
+    line-height: 1.02;
+    color: var(--bone);
+    max-width: 12ch;
+  }
+  .hero-copy .ember-word{ color: var(--ember-light); }
+  .hero-copy p{
+    margin-top: 24px;
+    color: var(--bone-dim);
+    font-size: 1.15rem;
+    max-width: 46ch;
+    line-height: 1.65;
+  }
+  .hero-actions{ margin-top: 36px; display:flex; gap:16px; flex-wrap:wrap; }
+
+  .hero-visual{
+    position: relative;
+    z-index:1;
+    border-radius: 18px;
+    overflow: visible;
+  }
+  .hero-visual .glow{
+    position:absolute;
+    inset: -10%;
+    background: radial-gradient(circle at 65% 45%, rgba(230,83,28,0.55), transparent 60%);
+    filter: blur(30px);
+    animation: emberPulse 6s ease-in-out infinite;
+    z-index:0;
+  }
+  @keyframes emberPulse{
+    0%,100%{ opacity: .65; transform: scale(1); }
+    50%{ opacity: 1; transform: scale(1.06); }
+  }
+  .hero-visual .frame{
+    position: relative;
+    z-index:1;
+    border-radius: 18px;
+    overflow:hidden;
+    aspect-ratio: 4/5;
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,0.75);
+  }
+  .hero-visual img{
+    width:100%; height:100%; object-fit:cover;
+  }
+  .hero-tag{
+    position:absolute;
+    left: -18px;
+    bottom: 26px;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 16px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    z-index:3;
+    max-width: 230px;
+  }
+  .hero-tag strong{ display:block; font-family: var(--ff-display); font-size: 1.9rem; color: var(--ember); line-height:1; }
+  .hero-tag span{ font-size: 0.82rem; color: var(--smoke); }
+
+  /* ---------- MENU ---------- */
+  .menu{ background: var(--paper); padding: 110px 0; }
+  .menu-tabs{
+    display:flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    margin-bottom: 44px;
+    scrollbar-width: none;
+  }
+  .menu-tabs::-webkit-scrollbar{ display:none; }
+  .menu-tab{
+    flex-shrink:0;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: 1.5px solid var(--line-dark);
+    font-weight:600;
+    font-size: 0.92rem;
+    color: var(--smoke);
+    background: var(--paper);
+    transition: all .2s ease;
+  }
+  .menu-tab:hover{ border-color: var(--ember); color: var(--ember-dark); }
+  .menu-tab.active{
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bone);
+  }
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 28px;
+  }
+  .menu-card{
+    background: #fff;
+    border-radius: var(--radius-m);
+    overflow:hidden;
+    border: 1px solid var(--line-dark);
+    display:flex;
+    flex-direction:column;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .menu-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow); }
+  .menu-card .photo{
+    position:relative;
+    aspect-ratio: 4/3;
+    overflow:hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 88% 100%, 0 100%);
+  }
+  .menu-card .photo img{ width:100%; height:100%; object-fit:cover; transition: transform .5s ease; }
+  .menu-card:hover .photo img{ transform: scale(1.06); }
+  .menu-card .badge{
+    position:absolute; top:12px; left:12px;
+    background: var(--ember);
+    color:#fff;
+    font-size: 0.72rem;
+    font-weight:700;
+    padding: 5px 11px;
+    border-radius: 999px;
+    letter-spacing: 0.02em;
+  }
+  .menu-card .body{
+    padding: 20px 20px 22px;
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+    flex:1;
+  }
+  .menu-card h3{ font-family: var(--ff-body); font-weight:700; font-size: 1.12rem; color: var(--ink); }
+  .menu-card p.desc{ color: var(--smoke); font-size: 0.9rem; line-height:1.55; flex:1; }
+  .menu-card .foot{
+    margin-top: 6px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-top: 1px dashed var(--line-dark);
+    padding-top: 14px;
+  }
+  .menu-card .price{ font-family: var(--ff-display); font-size: 1.35rem; color: var(--ember-dark); }
+  .menu-card .price small{ font-family: var(--ff-body); font-size: 0.7rem; color: var(--smoke); font-weight:600; }
+  .order-btn{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--ink);
+    color: var(--bone);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight:600;
+    font-size: 0.85rem;
+    transition: background .2s ease, transform .2s ease;
+  }
+  .order-btn:hover{ background: var(--ember); transform: translateY(-2px); }
+  .order-btn svg{ width:15px; height:15px; }
+
+  /* ---------- ABOUT ---------- */
+  .about{ background: var(--wood); padding: 110px 0; }
+  .about .container{
+    display:grid;
+    grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr);
+    gap: 64px;
+    align-items:center;
+  }
+  .about-visual{ position:relative; }
+  .about-visual .frame{
+    border-radius: 16px;
+    overflow:hidden;
+    aspect-ratio: 3/4;
+    box-shadow: var(--shadow);
+  }
+  .about-visual img{ width:100%; height:100%; object-fit:cover; }
+  .about-visual .stat-card{
+    position:absolute;
+    bottom: -28px;
+    right: -20px;
+    background: var(--ember);
+    color:#fff;
+    padding: 22px 26px;
+    border-radius: 14px;
+    box-shadow: 0 25px 40px -18px rgba(0,0,0,0.55);
+    max-width: 190px;
+  }
+  .about-visual .stat-card strong{ display:block; font-family: var(--ff-display); font-size: 2.1rem; line-height:1; }
+  .about-visual .stat-card span{ font-size: 0.82rem; opacity:0.9; }
+
+  .about-copy h2{ color: var(--bone); font-size: clamp(2rem, 4vw, 2.9rem); line-height:1.08; max-width: 14ch; }
+  .about-copy p{ color: var(--bone-dim); margin-top:20px; font-size: 1.02rem; line-height:1.7; max-width: 56ch; }
+  .about-copy p + p{ margin-top: 14px; }
+
+  .about-list{ margin-top: 32px; display:grid; gap:18px; }
+  .about-list li{ display:flex; gap:14px; align-items:flex-start; }
+  .about-list .icon{
+    width: 38px; height:38px; flex-shrink:0;
+    background: rgba(230,83,28,0.16);
+    border-radius: 10px;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--ember-light);
+  }
+  .about-list .icon svg{ width:19px; height:19px; }
+  .about-list h4{ font-family: var(--ff-body); font-weight:700; color: var(--bone); font-size: 1rem; }
+  .about-list p{ margin-top:4px; color: var(--bone-dim); font-size: 0.9rem; max-width:44ch; }
+
+  /* ---------- REVIEWS ---------- */
+  .reviews{ background: var(--paper); padding: 110px 0; }
+  .reviews-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 26px;
+  }
+  .review-card{
+    background: #fff;
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius-m);
+    padding: 32px 28px;
+    display:flex;
+    flex-direction:column;
+    gap: 18px;
+  }
+  .review-card .stars{ display:flex; gap:3px; color: var(--ember); }
+  .review-card .stars svg{ width:16px; height:16px; }
+  .review-card p.quote{ color: var(--ink); font-size: 1rem; line-height:1.65; }
+  .review-card .person{ display:flex; align-items:center; gap: 12px; margin-top:auto; }
+  .review-card .avatar{
+    width: 42px; height:42px; border-radius:50%;
+    background: var(--ink);
+    color: var(--bone);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size: 0.9rem;
+    flex-shrink:0;
+  }
+  .review-card .person strong{ display:block; font-size: 0.92rem; }
+  .review-card .person span{ font-size: 0.8rem; color: var(--smoke); }
+
+  /* ---------- LOCATION ---------- */
+  .location{ background: var(--char); padding: 110px 0; }
+  .location .container{
+    display:grid;
+    grid-template-columns: minmax(0,0.85fr) minmax(0,1.15fr);
+    gap: 48px;
+    align-items:stretch;
+  }
+  .location-info{ display:flex; flex-direction:column; gap: 26px; }
+  .info-row{ display:flex; gap:16px; align-items:flex-start; }
+  .info-row .icon{
+    width:44px; height:44px; border-radius:12px; flex-shrink:0;
+    background: rgba(230,83,28,0.16);
+    color: var(--ember-light);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .info-row .icon svg{ width:20px; height:20px; }
+  .info-row h4{ font-family: var(--ff-body); font-weight:700; color: var(--bone); font-size: 1rem; margin-bottom:4px; }
+  .info-row p{ color: var(--bone-dim); font-size: 0.92rem; line-height:1.6; }
+  .hours-table{ width:100%; border-collapse: collapse; margin-top:2px; }
+  .hours-table td{ padding: 3px 0; font-size: 0.92rem; color: var(--bone-dim); }
+  .hours-table td:last-child{ text-align:right; color: var(--bone); font-weight:600; }
+  .map-frame{
+    border-radius: 16px;
+    overflow:hidden;
+    min-height: 340px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--line);
+  }
+  .map-frame iframe{ width:100%; height:100%; min-height:340px; border:0; filter: saturate(0.85) contrast(1.05); }
+
+  /* ---------- CONTACT ---------- */
+  .contact{ background: var(--paper); padding: 110px 0; }
+  .contact-grid{
+    display:grid;
+    grid-template-columns: minmax(0,0.85fr) minmax(0,1.15fr);
+    gap: 48px;
+  }
+  .contact-cards{ display:flex; flex-direction:column; gap: 18px; }
+  .contact-card{
+    display:flex; align-items:center; gap:16px;
+    background:#fff;
+    border:1px solid var(--line-dark);
+    border-radius: var(--radius-m);
+    padding: 20px 22px;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .contact-card:hover{ border-color: var(--ember); transform: translateX(4px); }
+  .contact-card .icon{
+    width:46px; height:46px; border-radius:12px; flex-shrink:0;
+    background: var(--paper-2);
+    color: var(--ember-dark);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .contact-card .icon svg{ width:21px; height:21px; }
+  .contact-card strong{ display:block; font-size: 0.95rem; }
+  .contact-card span{ font-size: 0.85rem; color: var(--smoke); }
+
+  .contact-form{
+    background:#fff;
+    border:1px solid var(--line-dark);
+    border-radius: var(--radius-m);
+    padding: 36px;
+  }
+  .form-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom:18px; }
+  .field{ display:flex; flex-direction:column; gap:8px; }
+  .field.full{ grid-column: 1 / -1; }
+  .field label{ font-size: 0.85rem; font-weight:600; color: var(--ink); }
+  .field input, .field textarea{
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 13px 15px;
+    border-radius: 9px;
+    border: 1.5px solid var(--line-dark);
+    background: var(--paper);
+    color: var(--ink);
+    resize: vertical;
+    transition: border-color .2s ease;
+  }
+  .field input:focus, .field textarea:focus{ border-color: var(--ember); outline:none; }
+  .form-note{
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: var(--smoke);
+    display:none;
+    align-items:center;
+    gap:8px;
+  }
+  .form-note.show{ display:flex; }
+  .form-note svg{ width:16px; height:16px; color: var(--ember); flex-shrink:0; }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{ background: var(--char-2); color: var(--bone-dim); padding: 70px 0 26px; }
+  .footer-top{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 44px;
+    border-bottom: 1px solid var(--line);
+  }
+  .footer-brand p{ margin-top:14px; font-size:0.92rem; line-height:1.6; max-width: 34ch; color: var(--bone-dim); }
+  .footer-social{ display:flex; gap:12px; margin-top:20px; }
+  .footer-social a{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color: var(--bone);
+    transition: background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .footer-social a:hover{ background: var(--ember); border-color: var(--ember); transform: translateY(-3px); }
+  .footer-social svg{ width:17px; height:17px; }
+  .footer-col h5{ font-family: var(--ff-body); font-size: 0.85rem; text-transform: none; letter-spacing:0.02em; color: var(--bone); font-weight:700; margin-bottom: 16px; }
+  .footer-col ul{ display:flex; flex-direction:column; gap:11px; }
+  .footer-col a{ font-size: 0.92rem; color: var(--bone-dim); transition: color .2s ease; }
+  .footer-col a:hover{ color: var(--bone); }
+  .footer-col p{ font-size: 0.9rem; color: var(--bone-dim); line-height:1.7; }
+  .footer-bottom{
+    padding-top: 26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap: 12px;
+    font-size: 0.82rem;
+    color: var(--smoke);
+  }
+
+  /* ---------- WHATSAPP FLOAT ---------- */
+  .wa-float{
+    position:fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 400;
+    width: 58px; height:58px;
+    border-radius:50%;
+    background: #25D366;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 14px 30px -10px rgba(0,0,0,0.5);
+    transition: transform .2s ease;
+  }
+  .wa-float:hover{ transform: scale(1.08); }
+  .wa-float svg{ width:28px; height:28px; color:#fff; }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  .reveal{ opacity:0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform: translateY(0); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 980px){
+    .hero .container{ grid-template-columns: 1fr; padding-top: 30px; min-height: auto; }
+    .hero-visual{ order:-1; max-width: 420px; margin: 0 auto; }
+    .hero-tag{ left: 10px; bottom:16px; }
+    .about .container, .location .container, .contact-grid{ grid-template-columns: 1fr; }
+    .about-visual{ max-width: 380px; margin: 0 auto 60px; }
+    .footer-top{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 760px){
+    .main-nav{
+      position: fixed; inset: 0 0 0 auto;
+      top: 0; height:100vh; width: min(78vw, 320px);
+      background: var(--char-2);
+      flex-direction:column;
+      align-items:flex-start;
+      padding: 100px 32px 40px;
+      gap: 26px;
+      transform: translateX(100%);
+      transition: transform .35s ease;
+      box-shadow: -20px 0 40px rgba(0,0,0,0.4);
+    }
+    .main-nav.open{ transform: translateX(0); }
+    .main-nav a{ font-size: 1.1rem; }
+    .nav-toggle{ display:flex; }
+    .header-actions .btn-primary span.long{ display:none; }
+    .form-row{ grid-template-columns: 1fr; }
+    .footer-top{ grid-template-columns: 1fr; gap: 32px; }
+    .site-header .header-actions .btn{ padding: 11px 16px; font-size: 0.82rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="container">
+    <a href="#top" class="brand">
+      <svg class="flame" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.5 1c.7 3-1.6 4.6-3 6.4C7.9 9.3 7 11 7 13a5 5 0 0 0 10 0c0-1.5-.6-2.4-1.2-3.3-.3.9-.9 1.6-1.7 1.6-1 0-1.6-.8-1.4-1.8.4-2 1.6-3 1.6-5.2C14.3 2.8 13.6 1.7 12.5 1Z"/><path d="M9.2 14.8c0 1.6 1.3 2.9 2.9 2.9s2.9-1.3 2.9-2.9c0-.7-.2-1.1-.5-1.6-.2.5-.6.9-1.1.9-.6 0-1-.5-.8-1.1.2-.9.7-1.4.7-2.4-.9.5-1.6 1.2-2.1 2-.5.7-1 1.3-1 2.2Z" opacity=".55"/></svg>
+      BRASA<span class="accent">BURGER</span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#top" class="nav-link">Início</a>
+      <a href="#cardapio" class="nav-link">Cardápio</a>
+      <a href="#sobre" class="nav-link">Sobre</a>
+      <a href="#contato" class="nav-link">Contato</a>
+    </nav>
+
+    <div class="header-actions">
+      <a class="btn btn-primary btn-sm wa-order" href="#" target="_blank" rel="noopener" data-wa-text="Olá! Vim pelo site e gostaria de fazer um pedido na Brasa Burger.">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.1a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.7.9-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.2-.3 0-.4.1-.6l.4-.4c.1-.1.2-.3.2-.4a.5.5 0 0 0 0-.4c-.1-.1-.5-1.3-.7-1.8s-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.8 2.8 0 0 0-.9 2.1c0 1.2.9 2.4 1 2.6.1.1 1.8 2.8 4.4 3.8a5 5 0 0 0 1.6.4 3.4 3.4 0 0 0 1.4-.1 2.3 2.3 0 0 0 1.5-1.1c.2-.4.2-.7.1-.8s-.2-.1-.4-.2Z"/></svg>
+        <span class="long">Pedir pelo WhatsApp</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-copy">
+      <h1>O sabor que merece virar seu <span class="ember-word">favorito.</span></h1>
+      <p>Blends grelhados na brasa, pão brioche tostado na manteiga e molhos feitos à mão, todos os dias. Uma hamburgueria pensada para quem não abre mão de comer bem.</p>
+      <div class="hero-actions">
+        <a href="#cardapio" class="btn btn-primary">Ver cardápio</a>
+        <a href="#" target="_blank" rel="noopener" class="btn btn-ghost wa-order" data-wa-text="Olá! Vim pelo site e gostaria de fazer um pedido na Brasa Burger.">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.1a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.7.9-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.2-.3 0-.4.1-.6l.4-.4c.1-.1.2-.3.2-.4a.5.5 0 0 0 0-.4c-.1-.1-.5-1.3-.7-1.8s-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.8 2.8 0 0 0-.9 2.1c0 1.2.9 2.4 1 2.6.1.1 1.8 2.8 4.4 3.8a5 5 0 0 0 1.6.4 3.4 3.4 0 0 0 1.4-.1 2.3 2.3 0 0 0 1.5-1.1c.2-.4.2-.7.1-.8s-.2-.1-.4-.2Z"/></svg>
+          Pedir pelo WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="glow"></div>
+      <div class="frame">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=900&q=80" alt="Hambúrguer artesanal Brasa Burger grelhado na brasa, com queijo derretido e pão brioche">
+      </div>
+      <div class="hero-tag">
+        <strong>100%</strong>
+        <span>Grelhado na brasa, todos os dias</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CARDÁPIO ================= -->
+<section class="menu" id="cardapio">
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>Nosso cardápio</h2>
+      <p>Cada item é montado na hora, com ingredientes selecionados e o toque de fumaça que só a brasa dá.</p>
+    </div>
+
+    <div class="menu-tabs" id="menuTabs">
+      <button class="menu-tab active" data-cat="hamburgueres">Hambúrgueres</button>
+      <button class="menu-tab" data-cat="combos">Combos</button>
+      <button class="menu-tab" data-cat="acompanhamentos">Acompanhamentos</button>
+      <button class="menu-tab" data-cat="bebidas">Bebidas</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<!-- ================= SOBRE ================= -->
+<section class="about" id="sobre">
+  <div class="container">
+    <div class="about-visual reveal">
+      <div class="frame">
+        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80" alt="Carne sendo grelhada sobre brasa acesa na cozinha da Brasa Burger">
+      </div>
+      <div class="stat-card">
+        <strong>+8 anos</strong>
+        <span>De casa aberta e brasa acesa</span>
+      </div>
+    </div>
+
+    <div class="about-copy reveal">
+      <h2>Tudo começou com uma grelha e muita teimosia.</h2>
+      <p>A Brasa Burger nasceu da vontade de fazer um hambúrguer que lembrasse churrasco de família: carne grossa, fumaça de verdade e pão quentinho na hora de servir. O que começou pequeno virou o point de quem gosta de comer bem sem cerimônia.</p>
+      <p>Até hoje, cada blend é moído no dia, cada pão é tostado na chapa com manteiga e cada molho é feito na cozinha, sem atalhos.</p>
+
+      <ul class="about-list">
+        <li>
+          <span class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.9 4.9l2.8 2.8"/><path d="M16.3 16.3l2.8 2.8"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.9 19.1l2.8-2.8"/><path d="M16.3 7.7l2.8-2.8"/></svg>
+          </span>
+          <div>
+            <h4>Grelha 100% a carvão</h4>
+            <p>Sem chapa elétrica: o sabor defumado vem direto da brasa acesa.</p>
+          </div>
+        </li>
+        <li>
+          <span class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 9 18l-5-5"/></svg>
+          </span>
+          <div>
+            <h4>Ingredientes selecionados</h4>
+            <p>Carne moída na hora, queijos de qualidade e pães de padarias parceiras.</p>
+          </div>
+        </li>
+        <li>
+          <span class="icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a4 4 0 0 1 8 0v2"/></svg>
+          </span>
+          <div>
+            <h4>Produção artesanal</h4>
+            <p>Montagem feita na hora do pedido, sem produção em massa nem porções congeladas.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AVALIAÇÕES ================= -->
+<section class="reviews" id="avaliacoes">
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>Quem já provou, aprova</h2>
+      <p>Algumas palavras de quem passa por aqui — ou pede pra receber em casa.</p>
+    </div>
+
+    <div class="reviews-grid">
+      <article class="review-card reveal">
+        <div class="stars">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+        </div>
+        <p class="quote">O Brasa Especial é sensacional — o ponto da carne fica perfeito e dá pra sentir a fumaça da brasa em cada mordida. Já é parada fixa da semana aqui em casa.</p>
+        <div class="person">
+          <div class="avatar">MC</div>
+          <div><strong>Mariana Costa</strong><span>Cliente frequente</span></div>
+        </div>
+      </article>
+
+      <article class="review-card reveal">
+        <div class="stars">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+        </div>
+        <p class="quote">Peço o Combo Bacon pelo WhatsApp quase toda sexta. O atendimento é rápido e o pedido sempre chega quentinho, exatamente como no salão.</p>
+        <div class="person">
+          <div class="avatar">RA</div>
+          <div><strong>Rafael Almeida</strong><span>Pedido via delivery</span></div>
+        </div>
+      </article>
+
+      <article class="review-card reveal">
+        <div class="stars">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 1l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L10 14.8l-5.5 2.7 1.3-6.1L1.2 7.2l6.2-.6L10 1Z"/></svg>
+        </div>
+        <p class="quote">Ambiente aconchegante e atendimento atencioso. As batatas rústicas com alecrim são um capítulo à parte — peço em dobro sempre que vou.</p>
+        <div class="person">
+          <div class="avatar">JF</div>
+          <div><strong>Juliana Ferreira</strong><span>Visita no salão</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LOCALIZAÇÃO ================= -->
+<section class="location" id="localizacao">
+  <div class="container">
+    <div class="location-info">
+      <div class="section-head on-dark reveal" style="margin-bottom:8px;">
+        <h2>Onde estamos</h2>
+        <p>Venha comer no salão ou peça para receber em casa — estamos por perto.</p>
+      </div>
+
+      <div class="info-row reveal">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+        <div>
+          <h4>Endereço</h4>
+          <p>Rua das Brasas, 245 — Centro<br>Belo Horizonte, MG</p>
+        </div>
+      </div>
+
+      <div class="info-row reveal">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+        <div>
+          <h4>Horário de funcionamento</h4>
+          <table class="hours-table">
+            <tr><td>Terça a quinta</td><td>18h — 23h</td></tr>
+            <tr><td>Sexta e sábado</td><td>18h — 00h</td></tr>
+            <tr><td>Domingo</td><td>18h — 22h</td></tr>
+            <tr><td>Segunda</td><td>Fechado</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="info-row reveal">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.8 2Z"/></svg></span>
+        <div>
+          <h4>Telefone</h4>
+          <p>(31) 99999-0000</p>
+        </div>
+      </div>
+
+      <a href="https://www.google.com/maps/search/?api=1&query=Rua+das+Brasas+245+Centro+Belo+Horizonte" target="_blank" rel="noopener" class="btn btn-primary" style="align-self:flex-start;">Como chegar</a>
+    </div>
+
+    <div class="map-frame reveal">
+      <iframe src="https://www.google.com/maps?q=Praça+da+Liberdade,+Belo+Horizonte,+MG&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de localização da Brasa Burger"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTATO ================= -->
+<section class="contact" id="contato">
+  <div class="container">
+    <div class="section-head reveal">
+      <h2>Fale com a gente</h2>
+      <p>Dúvidas, encomendas ou parcerias — escolha o canal que preferir.</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-cards">
+        <a href="#" target="_blank" rel="noopener" class="contact-card wa-order reveal" data-wa-text="Olá! Vim pelo site da Brasa Burger e gostaria de tirar uma dúvida.">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.1a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.7.9-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.2-.3 0-.4.1-.6l.4-.4c.1-.1.2-.3.2-.4a.5.5 0 0 0 0-.4c-.1-.1-.5-1.3-.7-1.8s-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.8 2.8 0 0 0-.9 2.1c0 1.2.9 2.4 1 2.6.1.1 1.8 2.8 4.4 3.8a5 5 0 0 0 1.6.4 3.4 3.4 0 0 0 1.4-.1 2.3 2.3 0 0 0 1.5-1.1c.2-.4.2-.7.1-.8s-.2-.1-.4-.2Z"/></svg></span>
+          <div><strong>WhatsApp</strong><span>(31) 99999-0000</span></div>
+        </a>
+
+        <a href="https://instagram.com/brasaburger" target="_blank" rel="noopener" class="contact-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg></span>
+          <div><strong>Instagram</strong><span>@brasaburger</span></div>
+        </a>
+
+        <a href="tel:+553199990000" class="contact-card reveal">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.8 2Z"/></svg></span>
+          <div><strong>Telefone</strong><span>(31) 99999-0000</span></div>
+        </a>
+      </div>
+
+      <form class="contact-form reveal" id="contactForm">
+        <div class="form-row">
+          <div class="field">
+            <label for="fname">Nome</label>
+            <input type="text" id="fname" name="fname" placeholder="Seu nome" required>
+          </div>
+          <div class="field">
+            <label for="fphone">Telefone</label>
+            <input type="tel" id="fphone" name="fphone" placeholder="(31) 90000-0000" required>
+          </div>
+        </div>
+        <div class="field full" style="margin-bottom:18px;">
+          <label for="fmsg">Mensagem</label>
+          <textarea id="fmsg" name="fmsg" rows="4" placeholder="Como podemos ajudar?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Enviar mensagem</button>
+        <div class="form-note" id="formNote">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 1 21h22L12 2Zm0 15.5a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5ZM11 10h2v4h-2v-4Z" opacity="0"/><path d="m20 6-11 11-5-5 1.4-1.4L9 14.2 18.6 4.6 20 6Z"/></svg>
+          Mensagem recebida! Em breve alguém da nossa equipe responde por WhatsApp ou telefone.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#top" class="brand" style="font-size:1.35rem;">
+          <svg class="flame" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.5 1c.7 3-1.6 4.6-3 6.4C7.9 9.3 7 11 7 13a5 5 0 0 0 10 0c0-1.5-.6-2.4-1.2-3.3-.3.9-.9 1.6-1.7 1.6-1 0-1.6-.8-1.4-1.8.4-2 1.6-3 1.6-5.2C14.3 2.8 13.6 1.7 12.5 1Z"/></svg>
+          BRASA<span class="accent">BURGER</span>
+        </a>
+        <p>Hambúrgueres artesanais grelhados na brasa, com ingredientes selecionados e produção feita na hora, todos os dias.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/brasaburger" target="_blank" rel="noopener" aria-label="Instagram da Brasa Burger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+          </a>
+          <a href="#" class="wa-order" target="_blank" rel="noopener" aria-label="WhatsApp da Brasa Burger" data-wa-text="Olá! Vim pelo site e gostaria de fazer um pedido na Brasa Burger.">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.1a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.7.9-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.2-.3 0-.4.1-.6l.4-.4c.1-.1.2-.3.2-.4a.5.5 0 0 0 0-.4c-.1-.1-.5-1.3-.7-1.8s-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.8 2.8 0 0 0-.9 2.1c0 1.2.9 2.4 1 2.6.1.1 1.8 2.8 4.4 3.8a5 5 0 0 0 1.6.4 3.4 3.4 0 0 0 1.4-.1 2.3 2.3 0 0 0 1.5-1.1c.2-.4.2-.7.1-.8s-.2-.1-.4-.2Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Navegação</h5>
+        <ul>
+          <li><a href="#top">Início</a></li>
+          <li><a href="#cardapio">Cardápio</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Horário</h5>
+        <p>Ter a qui: 18h—23h<br>Sex e sáb: 18h—00h<br>Dom: 18h—22h<br>Seg: Fechado</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contato</h5>
+        <p>(31) 99999-0000<br>Rua das Brasas, 245<br>Centro, Belo Horizonte — MG</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Brasa Burger. Todos os direitos reservados.</span>
+      <span>Feito com fogo, fumaça e cuidado.</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="wa-float wa-order" target="_blank" rel="noopener" aria-label="Pedir pelo WhatsApp" data-wa-text="Olá! Vim pelo site e gostaria de fazer um pedido na Brasa Burger.">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.1a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.7.9-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.2-.3 0-.4.1-.6l.4-.4c.1-.1.2-.3.2-.4a.5.5 0 0 0 0-.4c-.1-.1-.5-1.3-.7-1.8s-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.8 2.8 0 0 0-.9 2.1c0 1.2.9 2.4 1 2.6.1.1 1.8 2.8 4.4 3.8a5 5 0 0 0 1.6.4 3.4 3.4 0 0 0 1.4-.1 2.3 2.3 0 0 0 1.5-1.1c.2-.4.2-.7.1-.8s-.2-.1-.4-.2Z"/></svg>
+</a>
+
+<script>
+(function(){
+  "use strict";
+
+  var WHATSAPP_NUMBER = "5531999990000"; // Número da Brasa Burger (formato internacional, sem símbolos)
+
+  /* ---------- Dados do cardápio ---------- */
+  var menuItems = [
+    {
+      cat: "hamburgueres",
+      badge: "Clássico",
+      name: "Brasa Clássico",
+      desc: "Blend bovino 180g, queijo cheddar, alface, tomate, cebola caramelizada e molho da casa no pão brioche.",
+      price: "32,90",
+      img: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "hamburgueres",
+      badge: "Favorito",
+      name: "Brasa Bacon",
+      desc: "Blend bovino 180g, bacon crocante, queijo prato, cebola crispy e molho barbecue defumado na casa.",
+      price: "36,90",
+      img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "hamburgueres",
+      badge: "",
+      name: "Brasa Duplo",
+      desc: "Dois blends bovinos de 120g, queijo cheddar em dobro, picles artesanal e molho especial da casa.",
+      price: "42,90",
+      img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "hamburgueres",
+      badge: "Assinatura",
+      name: "Brasa Especial",
+      desc: "Blend bovino 200g, queijo gruyère, cogumelos salteados na manteiga, rúcula fresca e maionese trufada.",
+      price: "44,90",
+      img: "https://images.unsplash.com/photo-1607013251379-e6eecfffe234?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "combos",
+      badge: "Combo",
+      name: "Combo Brasa Clássico",
+      desc: "Brasa Clássico, batata rústica com alecrim e refrigerante lata gelado.",
+      price: "46,90",
+      img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "combos",
+      badge: "Combo",
+      name: "Combo Brasa Bacon",
+      desc: "Brasa Bacon, onion rings crocantes e milkshake artesanal à sua escolha.",
+      price: "52,90",
+      img: "https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "acompanhamentos",
+      badge: "",
+      name: "Batata Rústica com Alecrim",
+      desc: "Batatas com casca, temperadas com alecrim fresco e finalizadas com flor de sal.",
+      price: "18,90",
+      img: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "acompanhamentos",
+      badge: "",
+      name: "Onion Rings Crocante",
+      desc: "Anéis de cebola empanados na casa, fritos na hora até ficarem bem crocantes.",
+      price: "21,90",
+      img: "https://images.unsplash.com/photo-1613145997970-db84a5f39869?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "acompanhamentos",
+      badge: "Novidade",
+      name: "Costelinha ao Barbecue",
+      desc: "Porção de costelinha suína lentamente defumada e finalizada no molho barbecue da casa.",
+      price: "28,90",
+      img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "bebidas",
+      badge: "",
+      name: "Refrigerante Lata",
+      desc: "Opções variadas de refrigerante gelado, servido na lata de 350ml.",
+      price: "7,90",
+      img: "https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "bebidas",
+      badge: "Feito na casa",
+      name: "Milkshake Artesanal",
+      desc: "Cremoso, feito com sorvete de verdade. Disponível nos sabores chocolate e morango.",
+      price: "19,90",
+      img: "https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=700&q=80"
+    },
+    {
+      cat: "bebidas",
+      badge: "",
+      name: "Limonada Suíça",
+      desc: "Limonada batida na hora com leite condensado, bem gelada.",
+      price: "12,90",
+      img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=700&q=80"
+    }
+  ];
+
+  /* ---------- Renderiza o cardápio ---------- */
+  var menuGrid = document.getElementById("menuGrid");
+  var menuTabs = document.getElementById("menuTabs");
+
+  function buildWaLink(text){
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text);
+  }
+
+  function renderMenu(cat){
+    menuGrid.innerHTML = "";
+    var filtered = menuItems.filter(function(item){ return item.cat === cat; });
+
+    filtered.forEach(function(item){
+      var card = document.createElement("article");
+      card.className = "menu-card reveal";
+
+      var badgeHtml = item.badge ? '<span class="badge">' + item.badge + '</span>' : '';
+      var orderText = "Olá! Gostaria de pedir: " + item.name + " (R$ " + item.price + ").";
+
+      card.innerHTML =
+        '<div class="photo">' + badgeHtml + '<img src="' + item.img + '" alt="' + item.name + '" loading="lazy"></div>' +
+        '<div class="body">' +
+          '<h3>' + item.name + '</h3>' +
+          '<p class="desc">' + item.desc + '</p>' +
+          '<div class="foot">' +
+            '<div class="price"><small>R$</small> ' + item.price + '</div>' +
+            '<a class="order-btn" target="_blank" rel="noopener" href="' + buildWaLink(orderText) + '">' +
+              '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Zm0 18.1a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.1 8.1 0 1 1 12 20.1Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1s-.6.8-.7.9-.3.2-.5.1a6.6 6.6 0 0 1-1.9-1.2 7.2 7.2 0 0 1-1.3-1.7c-.2-.3 0-.4.1-.6l.4-.4c.1-.1.2-.3.2-.4a.5.5 0 0 0 0-.4c-.1-.1-.5-1.3-.7-1.8s-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.8 2.8 0 0 0-.9 2.1c0 1.2.9 2.4 1 2.6.1.1 1.8 2.8 4.4 3.8a5 5 0 0 0 1.6.4 3.4 3.4 0 0 0 1.4-.1 2.3 2.3 0 0 0 1.5-1.1c.2-.4.2-.7.1-.8s-.2-.1-.4-.2Z"/></svg>' +
+              'Pedir' +
+            '</a>' +
+          '</div>' +
+        '</div>';
+      menuGrid.appendChild(card);
+    });
+
+    // ativa o reveal para os cards recém-criados
+    requestAnimationFrame(function(){
+      document.querySelectorAll(".menu-card.reveal").forEach(function(el){ el.classList.add("in"); });
+    });
+  }
+
+  menuTabs.addEventListener("click", function(e){
+    var tab = e.target.closest(".menu-tab");
+    if(!tab) return;
+    menuTabs.querySelectorAll(".menu-tab").forEach(function(t){ t.classList.remove("active"); });
+    tab.classList.add("active");
+    renderMenu(tab.dataset.cat);
+  });
+
+  renderMenu("hamburgueres");
+
+  /* ---------- Links de WhatsApp dinâmicos ---------- */
+  document.querySelectorAll(".wa-order").forEach(function(el){
+    el.href = buildWaLink(el.dataset.waText || "Olá! Gostaria de falar com a Brasa Burger.");
+  });
+
+  /* ---------- Header fixo com fundo ao rolar ---------- */
+  var header = document.getElementById("siteHeader");
+  function onScroll(){
+    if(window.scrollY > 30){ header.classList.add("scrolled"); }
+    else{ header.classList.remove("scrolled"); }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Menu mobile ---------- */
+  var navToggle = document.getElementById("navToggle");
+  var mainNav = document.getElementById("mainNav");
+  navToggle.addEventListener("click", function(){
+    var isOpen = mainNav.classList.toggle("open");
+    navToggle.classList.toggle("open", isOpen);
+    navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
+  mainNav.querySelectorAll("a").forEach(function(a){
+    a.addEventListener("click", function(){
+      mainNav.classList.remove("open");
+      navToggle.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  /* ---------- Formulário de contato (visual, sem backend) ---------- */
+  var form = document.getElementById("contactForm");
+  var formNote = document.getElementById("formNote");
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    formNote.classList.add("show");
+    form.reset();
+  });
+
+  /* ---------- Ano no rodapé ---------- */
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ---------- Revelação suave ao rolar ---------- */
+  var revealEls = document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add("in"); });
+  }
+})();
+</script>
+</body>
+</html>
